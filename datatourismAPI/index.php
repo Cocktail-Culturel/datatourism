@@ -7,11 +7,11 @@ require __DIR__ . '/vendor/autoload.php';
 
 $app = AppFactory::create();
 $app->addRoutingMiddleware();
-$errorMiddleware = $app->addErrorMiddleware(true, true, true);
+$errorMiddleware = $app->addErrorMiddleware(false, true, false);
 
 $app->get('/', function (Request $request, Response $response, $args) {
     $responseData = array(
-        'status' => 200,
+        'status' => 404,
         'message' => 'API dataTourism, regarder la documentation'
     );
 
@@ -25,16 +25,33 @@ $app->get('/api', function (Request $request, Response $response, $args) {
     $longitude = $request->getQueryParams()['longitude'] ?? null;
     $keyword = $request->getQueryParams()['keyword'] ?? null;
 
+    $title=null;
+    $link=null;
+    $illustration=null;
+    $description=null;
+    $label=null;
+    $tarif=null;
+    $tarif_from=null;
+    $distance=null;
+
     $data = array(
         'latitude' => $latitude,
         'longitude' => $longitude,
-        'keyword' => $keyword
+        'keyword' => $keyword,
+        'title'=>$title,
+        'link'=>$link,
+        'illustration'=>$illustration,
+        'description'=>$description,
+        'label'=>$label,
+        'tarif'=>$tarif,
+        'tarif_from'=>$tarif_from,
+        'distance'=>$distance
     );
 
     $responseData = array(
         'status' => 200,
         'message' => 'Success',
-        'data' => $data
+        'result' => $data
     );
 
     $response = $response->withHeader('Content-Type', 'application/json');

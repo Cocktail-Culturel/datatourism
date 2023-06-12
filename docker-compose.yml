@@ -1,0 +1,17 @@
+services:
+  api:
+    build:
+      context: ./datatourismAPI
+      dockerfile: DockerfileAPI
+    container_name: dataTourismAPI
+    restart: always
+    ports:
+      - "8000:8000"
+  bdd:
+    build:
+      context: ./datatourismBDD
+      dockerfile: DockerfileBDD
+    container_name: dataTourismBDD
+    restart: always
+    ports:
+      - "9999:9999"
