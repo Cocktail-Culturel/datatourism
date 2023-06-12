@@ -16,8 +16,8 @@ $app->get('/', function (Request $request, Response $response, $args) {
         'message' => 'API dataTourism, regarder la documentation'
     );
 
-    $response = $response->withHeader('Content-Type', 'text/json; charset=UTF-8;');
-    $response->getBody()->write(json_encode($responseData));
+    $response = $response->withHeader('Content-Type', 'application/json; charset=UTF-8;');
+    $response->getBody()->write(json_encode($responseData, JSON_UNESCAPED_UNICODE));
     return $response;
 });
 
@@ -69,8 +69,8 @@ $app->get('/api', function (Request $request, Response $response, $args) {
         'result' => $events
     );
 
-    $response = $response->withHeader('Content-Type', 'text/json; charset=UTF-8;');
-    $response->getBody()->write(json_encode($responseData));
+    $response = $response->withHeader('Content-Type', 'application/json; charset=UTF-8;');
+    $response->getBody()->write(json_encode($responseData, JSON_UNESCAPED_UNICODE));
     return $response;
 });
 
@@ -80,8 +80,8 @@ $app->any('/{route:.+}', function (Request $request, Response $response) {
         'status' => 404,
         'message' => 'Route invalide, regarder la documentation'
     );
-    $response = $response->withHeader('Content-Type', 'text/json; charset=UTF-8;');
-    $response->getBody()->write(json_encode($responseData));
+    $response = $response->withHeader('Content-Type', 'application/json; charset=UTF-8;');
+    $response->getBody()->write(json_encode($responseData, JSON_UNESCAPED_UNICODE));
     return $response;
 });
 
