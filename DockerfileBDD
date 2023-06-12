@@ -4,6 +4,8 @@ WORKDIR /BDD
 
 COPY blazegraph.jar .
 
+COPY flux.rdf .
+
 EXPOSE 9999
 
 ENTRYPOINT [ "java","-jar","blazegraph.jar" ]

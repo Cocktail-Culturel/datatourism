@@ -16,29 +16,38 @@ $app->get('/', function (Request $request, Response $response, $args) {
         'message' => 'API dataTourism, regarder la documentation'
     );
 
-    $response = $response->withHeader('Content-Type', 'application/json');
+    $response = $response->withHeader('Content-Type', 'text/json; charset=UTF-8;');
     $response->getBody()->write(json_encode($responseData));
     return $response;
 });
+
 
 $app->get('/api', function (Request $request, Response $response, $args) {
     $latitude = $request->getQueryParams()['latitude'] ?? null;
     $longitude = $request->getQueryParams()['longitude'] ?? null;
     $keyword = $request->getQueryParams()['keyword'] ?? null;
 
-    $result= getEvents($latitude, $longitude);
-    var_dump($result);
+    $raw= getEvents($latitude, $longitude);
+    $events = array();
 
-    $title=null;
-    $link=null;
+    foreach ($raw['data']['poi']['results'] as $result) {
+        $event = array(
+            "title" => $result['rdfs_label'][0],
+            "link" => $result['_uri'],
+            "description" => $result['hasDescription'][0]['shortDescription'][0],
+            "latitude" => $result['isLocatedAt'][0]['schema_geo'][0]['schema_latitude'][0],
+            "longitude" => $result['isLocatedAt'][0]['schema_geo'][0]['schema_longitude'][0]
+        );
+        $events[] = $event;
+    }
+
     $illustration=null;
-    $description=null;
-    $label=null;
+    //$label=null;
     $tarif=null;
     $tarif_from=null;
     $distance=null;
 
-    $data = array(
+    /*$data = array(
         'latitude' => $latitude,
         'longitude' => $longitude,
         'keyword' => $keyword,
@@ -50,15 +59,17 @@ $app->get('/api', function (Request $request, Response $response, $args) {
         'tarif'=>$tarif,
         'tarif_from'=>$tarif_from,
         'distance'=>$distance
-    );
+    );*/
+
+
 
     $responseData = array(
         'status' => 200,
         'message' => 'Success',
-        'result' => $data
+        'result' => $events
     );
 
-    $response = $response->withHeader('Content-Type', 'application/json');
+    $response = $response->withHeader('Content-Type', 'text/json; charset=UTF-8;');
     $response->getBody()->write(json_encode($responseData));
     return $response;
 });
@@ -69,7 +80,7 @@ $app->any('/{route:.+}', function (Request $request, Response $response) {
         'status' => 404,
         'message' => 'Route invalide, regarder la documentation'
     );
-    $response = $response->withHeader('Content-Type', 'application/json');
+    $response = $response->withHeader('Content-Type', 'text/json; charset=UTF-8;');
     $response->getBody()->write(json_encode($responseData));
     return $response;
 });
