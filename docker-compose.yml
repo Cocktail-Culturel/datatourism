@@ -1,7 +1,6 @@
 services:
   api:
     build:
-      context: ./datatourismAPI
       dockerfile: DockerfileAPI
     container_name: dataTourismAPI
     restart: always
@@ -9,7 +8,6 @@ services:
       - "8000:8000"
   bdd:
     build:
-      context: ./datatourismBDD
       dockerfile: DockerfileBDD
     container_name: dataTourismBDD
     restart: always
