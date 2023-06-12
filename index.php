@@ -3,6 +3,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
 
+require 'getEvents.php';
 require __DIR__ . '/vendor/autoload.php';
 
 $app = AppFactory::create();
@@ -24,6 +25,9 @@ $app->get('/api', function (Request $request, Response $response, $args) {
     $latitude = $request->getQueryParams()['latitude'] ?? null;
     $longitude = $request->getQueryParams()['longitude'] ?? null;
     $keyword = $request->getQueryParams()['keyword'] ?? null;
+
+    $result= getEvents($latitude, $longitude);
+    var_dump($result);
 
     $title=null;
     $link=null;

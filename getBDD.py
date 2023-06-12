@@ -6,7 +6,7 @@ rdf_data = requests.get(rdf_url).content
 
 
 # Step 3: Use the Blazegraph REST API to load the data
-blazegraph_url = "http://127.0.0.1:9000/blazegraph/namespace/kb/sparql"
+blazegraph_url = "http://127.0.0.1:9999/blazegraph/namespace/kb/sparql"
 headers = {"Content-Type": "application/rdf+xml"}
 response = requests.post(blazegraph_url, data=rdf_data, headers=headers)
 

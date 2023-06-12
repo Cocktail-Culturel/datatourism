@@ -1,7 +1,4 @@
-#!/usr/bin/env php
-
 <?php
-
 
 function getEvents($latitude, $longitude)
 {
@@ -14,7 +11,7 @@ function getEvents($latitude, $longitude)
   // composer autoload
   require __DIR__ . '/vendor/autoload.php';
   // instanciation du client
-  $api = \Datatourisme\Api\DatatourismeApi::create('http://192.168.58.131:9000/blazegraph/namespace/kb/sparql');
+  $api = \Datatourisme\Api\DatatourismeApi::create('http://localhost:9999/blazegraph/namespace/kb/sparql');
 
   // éxecution d'une requête
   $result = $api->process("{
@@ -73,6 +70,6 @@ function getEvents($latitude, $longitude)
   return $result;
 }
 
-$result_ = getEvents(45, 4);
-var_dump($result_);
+//$result_ = getEvents(45, 4);
+//var_dump($result_);
 ?>
