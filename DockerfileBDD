@@ -1,13 +1,9 @@
-FROM openjdk:17
+FROM conjecto/blazegraph:2.1.5
 
 WORKDIR /BDD
-
-COPY blazegraph.jar .
 
 COPY flux.rdf .
 
 EXPOSE 9999
-
-ENTRYPOINT [ "java","-jar","blazegraph.jar" ]
 
 LABEL version="3.0" maintainer="TSE"

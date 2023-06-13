@@ -4,6 +4,8 @@
 
 1. Télécharger le flux de données depuis [datatourisme](https://diffuseur.datatourisme.fr/fr/login)
 
+## En local
+
 2. Télécharger la base de données [graphQL](https://github.com/blazegraph/database/releases/download/BLAZEGRAPH_2_1_6_RC/blazegraph.jar) ou
 
    ```bash
@@ -19,3 +21,7 @@
 6. Tester l'api avec _test.php_
 
 7. Exemples d'utilisation [ici](https://datatourisme.frama.io/api/#/README)
+
+## Avec docker compose :
+
+2. Lancer l'api et la bdd avec `docker compose up -d` puis charger la bdd dans blazegraph

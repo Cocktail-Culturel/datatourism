@@ -4,11 +4,12 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
 
 require 'getEvents.php';
+require 'getEden.php';
 require __DIR__ . '/vendor/autoload.php';
 
 $app = AppFactory::create();
 $app->addRoutingMiddleware();
-$errorMiddleware = $app->addErrorMiddleware(false, true, false);
+$errorMiddleware = $app->addErrorMiddleware(true, true, true);
 
 $app->get('/', function (Request $request, Response $response, $args) {
     $responseData = array(
@@ -27,25 +28,52 @@ $app->get('/api', function (Request $request, Response $response, $args) {
     $longitude = $request->getQueryParams()['longitude'] ?? null;
     $keyword = $request->getQueryParams()['keyword'] ?? null;
 
-    $raw= getEvents($latitude, $longitude);
-    $events = array();
+    $raw = getEvents($latitude, $longitude);
+    $events = [];
+    $matches = [];
 
-    foreach ($raw['data']['poi']['results'] as $result) {
-        $event = array(
-            "title" => $result['rdfs_label'][0],
-            "link" => $result['_uri'],
-            "description" => $result['hasDescription'][0]['shortDescription'][0],
-            "latitude" => $result['isLocatedAt'][0]['schema_geo'][0]['schema_latitude'][0],
-            "longitude" => $result['isLocatedAt'][0]['schema_geo'][0]['schema_longitude'][0]
-        );
-        $events[] = $event;
+    if ($raw !== null) {
+        if (isset($raw['data']['poi']['results']) && is_array($raw['data']['poi']['results'])) {
+            foreach ($raw['data']['poi']['results'] as $result) {
+                $event = array(
+                    "title" => isset($result['rdfs_label'][0]) ? $result['rdfs_label'][0] : '',
+                    "link" => isset($result['_uri']) ? $result['_uri'] : '',
+                    "description" => isset($result['hasDescription'][0]['shortDescription'][0]) ? $result['hasDescription'][0]['shortDescription'][0] : '',
+                    "latitude" => isset($result['isLocatedAt'][0]['schema_geo'][0]['schema_latitude'][0]) ? $result['isLocatedAt'][0]['schema_geo'][0]['schema_latitude'][0] : '',
+                    "longitude" => isset($result['isLocatedAt'][0]['schema_geo'][0]['schema_longitude'][0]) ? $result['isLocatedAt'][0]['schema_geo'][0]['schema_longitude'][0] : ''
+                );
+                $events[] = $event;
+            }
+        }
+
+        $illustration = null;
+        //$label = null;
+        $tarif = null;
+        $tarif_from = null;
+        $distance = null;
+
+        foreach ($events as $eve){
+            array_push($matches,getEden($eve['title'],explode(' ', $keyword)));
+        }
+
+        for ($i = 0; $i < count($matches); $i++) {
+            $j = $i;
+            while ($matches[$j - 1] < $matches[$j] && $j > 0) {
+                $tempMatch = $matches[$j - 1];
+                $tempEvent = $events[$j - 1];
+        
+                $matches[$j - 1] = $matches[$j];
+                $events[$j - 1] = $events[$j];
+        
+                $matches[$j] = $tempMatch;
+                $events[$j] = $tempEvent;
+        
+                $j--;
+            }
+        }
+        
     }
 
-    $illustration=null;
-    //$label=null;
-    $tarif=null;
-    $tarif_from=null;
-    $distance=null;
 
     /*$data = array(
         'latitude' => $latitude,

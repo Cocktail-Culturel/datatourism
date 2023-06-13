@@ -1,15 +1,29 @@
+version: '3'
+
 services:
   api:
     build:
+      context: .
       dockerfile: DockerfileAPI
     container_name: dataTourismAPI
+    networks:
+      - datatourism
     restart: always
     ports:
       - "8000:8000"
   bdd:
-    build:
-      dockerfile: DockerfileBDD
+    image: conjecto/blazegraph:2.1.5
     container_name: dataTourismBDD
     restart: always
     ports:
-      - "9999:9999"
+      - 9999:9999
+    environment:
+        JAVA_OPTS: "-Xms2g -Xmx3g"
+    volumes:
+      - ./dataset:/docker-entrypoint-initdb.d
+    networks:
+      - datatourism
+
+networks:
+  datatourism:
+    driver: bridge
