@@ -48,7 +48,7 @@ $total = $data["data"]["poi"]["total"];
                 { 
                   _geo_distance: 
                   {
-                    lng: {$longitude} , lat: {$latitude} , distance: \"10\" 
+                    lng: {$longitude} , lat: {$latitude} , distance: \"15\" 
                   } 
                 }
               }
