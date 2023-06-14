@@ -4,6 +4,7 @@
 *.jnl
 *.rdf
 .vscode/*
+*.json
 ### Composer ###
 composer.phar
 /vendor/

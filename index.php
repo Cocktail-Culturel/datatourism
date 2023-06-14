@@ -31,13 +31,15 @@ $app->get('/api', function (Request $request, Response $response, $args) {
     $raw = getEvents($latitude, $longitude);
     $events = [];
 
+    
     if ($raw !== null) {
         if (isset($raw['data']['poi']['results']) && is_array($raw['data']['poi']['results'])) {
+            echo count($raw['data']['poi']['results']);
             foreach ($raw['data']['poi']['results'] as $result) {
                 $event = array(
-                    "title" => isset($result['rdfs_label'][0]) ? $result['rdfs_label'][0] : '',
+                    "title" => isset($result['rdfs_label'][0]['value']) ? $result['rdfs_label'][0]['value'] : '',
                     "link" => isset($result['_uri']) ? $result['_uri'] : '',
-                    "description" => isset($result['hasDescription'][0]['shortDescription'][0]) ? $result['hasDescription'][0]['shortDescription'][0] : '',
+                    "description" => isset($result['hasDescription'][0]['shortDescription'][0]['value']) ? $result['hasDescription'][0]['shortDescription'][0]['value'] : '',
                     "latitude" => isset($result['isLocatedAt'][0]['schema_geo'][0]['schema_latitude'][0]) ? $result['isLocatedAt'][0]['schema_geo'][0]['schema_latitude'][0] : '',
                     "longitude" => isset($result['isLocatedAt'][0]['schema_geo'][0]['schema_longitude'][0]) ? $result['isLocatedAt'][0]['schema_geo'][0]['schema_longitude'][0] : ''
                 );

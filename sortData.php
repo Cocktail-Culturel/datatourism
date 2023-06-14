@@ -45,6 +45,7 @@ function sortData($events,$userKeywords){
         }
     }        
     
+    //return array_slice($events,0,16);
     return $events;
 }
 
