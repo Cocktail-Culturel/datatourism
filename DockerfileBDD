@@ -1,9 +1,0 @@
-FROM conjecto/blazegraph:2.1.5
-
-WORKDIR /BDD
-
-COPY flux.rdf .
-
-EXPOSE 9999
-
-LABEL version="3.0" maintainer="TSE"

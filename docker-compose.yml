@@ -1,16 +1,20 @@
-version: '3'
+version: '3.1'
 
 services:
+
   api:
     build:
       context: .
       dockerfile: DockerfileAPI
     container_name: dataTourismAPI
-    networks:
-      - datatourism
     restart: always
     ports:
       - "8000:8000"
+    environment:
+      - BLAZEGRAPH_HOSTNAME=bdd
+    networks:
+      - datatourism
+
   bdd:
     image: conjecto/blazegraph:2.1.5
     container_name: dataTourismBDD

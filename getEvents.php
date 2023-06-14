@@ -11,7 +11,9 @@ function getEvents($latitude, $longitude)
   // composer autoload
   require __DIR__ . '/vendor/autoload.php';
   // instanciation du client
-  $api = \Datatourisme\Api\DatatourismeApi::create('http://localhost:9999/blazegraph/namespace/kb/sparql');
+  $blazegraphHostname = getenv('BLAZEGRAPH_HOSTNAME') ?: 'localhost';
+  $api = \Datatourisme\Api\DatatourismeApi::create("http://$blazegraphHostname:9999/blazegraph/namespace/kb/sparql");
+
 
   // éxecution d'une requête
   $result = $api->process("{

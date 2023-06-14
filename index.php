@@ -58,7 +58,7 @@ $app->get('/api', function (Request $request, Response $response, $args) {
 
         for ($i = 0; $i < count($matches); $i++) {
             $j = $i;
-            while ($matches[$j - 1] < $matches[$j] && $j > 0) {
+            while ($j > 0 && $matches[$j - 1] < $matches[$j]) {
                 $tempMatch = $matches[$j - 1];
                 $tempEvent = $events[$j - 1];
         
@@ -70,7 +70,7 @@ $app->get('/api', function (Request $request, Response $response, $args) {
         
                 $j--;
             }
-        }
+        }        
         
     }
 
