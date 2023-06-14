@@ -56,25 +56,36 @@ $total = $data["data"]["poi"]["total"];
         ]
     )
     
-  {
-    total
-    results {
-      rdfs_label
-      hasDescription{
-        shortDescription{
+    {
+      results {
+        _uri
+        rdfs_label {
           value
           lang
         }
-      }
-      isLocatedAt {
-        schema_geo {
-          schema_latitude   # <- Latitude du POI
-          schema_longitude  # <- Longitude du POI
+        hasDescription {
+          shortDescription {
+            value
+            lang
+          }
+        }
+        isLocatedAt {
+          schema_geo {
+            schema_latitude
+            schema_longitude
+          }
+        }
+        hasMainRepresentation {
+          _uri
+        }
+        offers {
+          schema_priceSpecification {
+            schema_price
+            schema_minPrice
+          }
         }
       }
-    } 
-      
-  } 
+    }
 }");
 
   
