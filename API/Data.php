@@ -23,7 +23,7 @@ function getData($raw,$keyword,$latitude,$longitude){
         }
     }
 
-    $illustration = null;
+    //$illustration = null;
 
     return sortData($events,$keyword);
 }
@@ -33,51 +33,31 @@ function sortData($events,$userKeywords){
 
     $userKeywordsLower = array_map('strtolower', explode(' ',$userKeywords));
 
-    $temp = [];
-
-    foreach($events as $eve){
-        array_push($temp,$eve['title']);
-    }
-
-    $keywords= array_map('strtolower', $temp);
-
     $matches = [];
 
-    foreach ($keywords as $keyword) {
+    for($i=0;$i<count($events);$i++){
+        
+        $keywords= strtolower($events[$i]['title']);
 
-        // Split the keyword into individual words
-        $keywordWords = explode(' ', $keyword);
+        $keywordWords = explode(' ', $keywords);
+        $isMatch=false;
+        
 
-        $match=0;
-        // Compare each word of the keyword with your list of lowercase keywords
-        foreach ($keywordWords as $word) {
-            if (in_array($word, $userKeywordsLower)) {
-                $match++;
+        $j=0;
+        while($j<count($keywordWords) && !$isMatch){
+            if (in_array($keywordWords[$j], $userKeywordsLower)) {
+                $isMatch=true;
+            }else{
+                $j++;
             }
         }
-        array_push($matches,$match);
 
+        if($isMatch){
+            array_push($matches,$events[$i]);
+        }
     }
 
-    for ($i = 0; $i < count($matches); $i++) {
-        $j = $i;
-        while ($j > 0 && $matches[$j - 1] < $matches[$j]) {
-            $tempMatch = $matches[$j - 1];
-            $tempEvent = $events[$j - 1];
-    
-            $matches[$j - 1] = $matches[$j];
-            $events[$j - 1] = $events[$j];
-    
-            $matches[$j] = $tempMatch;
-            $events[$j] = $tempEvent;
-    
-            $j--;
-        }
-    }        
-    
-    //echo count($matches);
-    //return array_slice($events,0,count($matches));
-    return $events;
+    return $matches;
 }
 
 ?>
