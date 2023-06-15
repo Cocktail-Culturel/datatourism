@@ -8,7 +8,7 @@ COPY index.php .
 
 COPY getEvents.php .
 
-COPY sortData.php .
+COPY Data.php .
 
 RUN apt update && apt install -y git
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer

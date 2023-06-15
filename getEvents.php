@@ -84,6 +84,9 @@ $total = $data["data"]["poi"]["total"];
             schema_minPrice
           }
         }
+        takesPlaceAt{
+          startDate
+        }
       }
     }
 }");
@@ -92,6 +95,6 @@ $total = $data["data"]["poi"]["total"];
   return $result;
 }
 
-//$result_ = getEvents(48.87, 2.33);
-//var_dump($result_);
+// $result_ = getEvents(48.87, 2.33);
+// var_dump($result_);
 ?>

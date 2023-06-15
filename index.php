@@ -4,7 +4,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
 
 require 'getEvents.php';
-require 'sortData.php';
+require 'Data.php';
 require __DIR__ . '/vendor/autoload.php';
 
 $app = AppFactory::create();
@@ -29,31 +29,9 @@ $app->get('/api', function (Request $request, Response $response, $args) {
     $keyword = $request->getQueryParams()['keyword'] ?? null;
 
     $raw = getEvents($latitude, $longitude);
-    $events = [];
-
     
     if ($raw !== null) {
-        if (isset($raw['data']['poi']['results']) && is_array($raw['data']['poi']['results'])) {
-            echo count($raw['data']['poi']['results']);
-            foreach ($raw['data']['poi']['results'] as $result) {
-                $event = array(
-                    "title" => isset($result['rdfs_label'][0]['value']) ? $result['rdfs_label'][0]['value'] : '',
-                    "link" => isset($result['_uri']) ? $result['_uri'] : '',
-                    "description" => isset($result['hasDescription'][0]['shortDescription'][0]['value']) ? $result['hasDescription'][0]['shortDescription'][0]['value'] : '',
-                    "latitude" => isset($result['isLocatedAt'][0]['schema_geo'][0]['schema_latitude'][0]) ? $result['isLocatedAt'][0]['schema_geo'][0]['schema_latitude'][0] : '',
-                    "longitude" => isset($result['isLocatedAt'][0]['schema_geo'][0]['schema_longitude'][0]) ? $result['isLocatedAt'][0]['schema_geo'][0]['schema_longitude'][0] : ''
-                );
-                $events[] = $event;
-            }
-        }
-
-        $illustration = null;
-        //$label = null;
-        $tarif = null;
-        $tarif_from = null;
-        $distance = null;
-
-        $finalEvents=sortData($events,$keyword);
+        $Events=getData($raw,$keyword,$latitude,$longitude);
     }
 
     /*$data = array(
@@ -75,7 +53,7 @@ $app->get('/api', function (Request $request, Response $response, $args) {
     $responseData = array(
         'status' => 200,
         'message' => 'Success',
-        'result' => $finalEvents
+        'result' => $Events
     );
 
     $response = $response->withHeader('Content-Type', 'application/json; charset=UTF-8;');
