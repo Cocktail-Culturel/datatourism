@@ -4,7 +4,6 @@
 *.jnl
 *.rdf
 .vscode/*
-*.json
 ### Composer ###
 composer.phar
 API/vendor/psr/http-message/src/*.php
