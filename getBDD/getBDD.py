@@ -5,8 +5,8 @@ rdf_url = "https://diffuseur.datatourisme.fr/webservice/37bc3e10f044c1d393d523b9
 rdf_data = requests.get(rdf_url).content
 
 
-# Step 3: Use the Blazegraph REST API to load the data
-blazegraph_url = "http://127.0.0.1:9999/blazegraph/namespace/kb/sparql"
+print("sending...")
+blazegraph_url = "http://localhost:9999/blazegraph/namespace/kb/sparql"
 headers = {"Content-Type": "application/rdf+xml"}
 response = requests.post(blazegraph_url, data=rdf_data, headers=headers)
 
