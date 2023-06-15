@@ -1,6 +1,6 @@
 <?php
 
-function getEvents($latitude, $longitude)
+function getEvents($latitude, $longitude,$radius)
 {
 
   // composer autoload
@@ -22,7 +22,7 @@ function getEvents($latitude, $longitude)
                 { 
                   _geo_distance: 
                   {
-                    lng: {$longitude} , lat: {$latitude} , distance: \"15\"  
+                    lng: {$longitude} , lat: {$latitude} , distance: {$radius}  
                   } 
                 }
               }
@@ -48,7 +48,7 @@ $total = $data["data"]["poi"]["total"];
                 { 
                   _geo_distance: 
                   {
-                    lng: {$longitude} , lat: {$latitude} , distance: \"15\" 
+                    lng: {$longitude} , lat: {$latitude} , distance: {$radius} 
                   } 
                 }
               }
@@ -95,6 +95,6 @@ $total = $data["data"]["poi"]["total"];
   return $result;
 }
 
-// $result_ = getEvents(48.87, 2.33);
-// var_dump($result_);
+//$result_ = getEvents(48.87, 2.33,15);
+//var_dump($result_);
 ?>
