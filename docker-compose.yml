@@ -3,7 +3,8 @@ version: '3.1'
 services:
 
   api:
-    build: .
+    build:
+      context: ./API
     container_name: dataTourismAPI
     restart: always
     ports:
@@ -22,7 +23,7 @@ services:
     environment:
         JAVA_OPTS: "-Xms2g -Xmx3g"
     volumes:
-      - ./dataset:/docker-entrypoint-initdb.d
+      - ./API/dataset:/docker-entrypoint-initdb.d
     networks:
       - datatourism
 
