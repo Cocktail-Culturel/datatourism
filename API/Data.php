@@ -38,14 +38,17 @@ function sortData($events,$userKeywords){
     for($i=0;$i<count($events);$i++){
         
         $keywords= strtolower($events[$i]['title']);
-
+        $description= strtolower($events[$i]['description']);
+        
+        
         $keywordWords = explode(' ', $keywords);
+        $descriptionWords = explode(' ', $description);
         $isMatch=false;
         
 
         $j=0;
         while($j<count($keywordWords) && !$isMatch){
-            if (in_array($keywordWords[$j], $userKeywordsLower)) {
+            if (in_array($keywordWords[$j], $userKeywordsLower) || in_array($descriptionWords[$j], $userKeywordsLower)) {
                 $isMatch=true;
             }else{
                 $j++;

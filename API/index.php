@@ -26,10 +26,10 @@ $app->get('/', function (Request $request, Response $response, $args) {
 $app->get('/api', function (Request $request, Response $response, $args) {
     $latitude = $request->getQueryParams()['latitude'] ?? null;
     $longitude = $request->getQueryParams()['longitude'] ?? null;
+    $rayon = $request->getQueryParams()['rayon'] ?? null;
     $keyword = $request->getQueryParams()['keyword'] ?? null;
-    $distance = $request->getQueryParams()['distance'] ?? null;
 
-    $raw = getEvents($latitude, $longitude,$distance);
+    $raw = getEvents($latitude, $longitude,$rayon);
     
     if ($raw !== null) {
         $Events=getData($raw,$keyword,$latitude,$longitude);
@@ -47,7 +47,6 @@ $app->get('/api', function (Request $request, Response $response, $args) {
     return $response;
 });
 
-// Wildcard route handler for all other routes
 $app->any('/{route:.+}', function (Request $request, Response $response) {
     $responseData = array(
         'status' => 404,
