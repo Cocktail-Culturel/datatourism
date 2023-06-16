@@ -26,7 +26,7 @@ $app->get('/', function (Request $request, Response $response, $args) {
 $app->get('/api', function (Request $request, Response $response, $args) {
     $latitude = $request->getQueryParams()['latitude'] ?? null;
     $longitude = $request->getQueryParams()['longitude'] ?? null;
-    $rayon = $request->getQueryParams()['rayon'] ?? null;
+    $rayon = $request->getQueryParams()['rayon'] ?? 25;
     $keyword = $request->getQueryParams()['keyword'] ?? null;
 
     $raw = getEvents($latitude, $longitude,$rayon);
