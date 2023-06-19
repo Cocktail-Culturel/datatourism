@@ -14,7 +14,7 @@ for region, url in json_data.items():
     except requests.exceptions.RequestException as err:
         print(f"Error : {err}")
     
-    sleep(1)
+    sleep(2)
     print("sending...")
     blazegraph_url = "http://localhost:9999/blazegraph/namespace/kb/sparql"
     headers = {"Content-Type": "application/rdf+xml"}
@@ -23,4 +23,4 @@ for region, url in json_data.items():
         print("Response Status Code:", response.status_code)
     except requests.exceptions.RequestException as err:
         print(f"Error : {err} Staus code : {response.status_code}")
-    sleep(1)
+    sleep(2)
