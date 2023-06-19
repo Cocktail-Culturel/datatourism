@@ -6,6 +6,8 @@ COPY requirements.txt .
 
 COPY getBDD.py .
 
+COPY flux.json .
+
 RUN pip install -r requirements.txt
 
 ENTRYPOINT [ "python3","getBDD.py"]
