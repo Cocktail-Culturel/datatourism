@@ -6,6 +6,7 @@ with open('flux.json') as file:
     
 for region, url in json_data.items():
     print("downloading...")
+    print(url)
     rdf_data = requests.get(url).content
 
     print("sending...")
