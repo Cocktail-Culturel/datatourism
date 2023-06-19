@@ -1,7 +1,6 @@
-version: '3.1'
+version: '3.9'
 
 services:
-
   api:
     build:
       context: ./API
@@ -12,7 +11,8 @@ services:
     environment:
       - BLAZEGRAPH_HOSTNAME=bdd
     networks:
-      - datatourism
+      - datatourismAPI
+      - datatourismBDD
 
   bdd:
     image: conjecto/blazegraph:2.1.5
@@ -21,12 +21,14 @@ services:
     ports:
       - 9999:9999
     environment:
-        JAVA_OPTS: "-Xms2g -Xmx3g"
+      - JAVA_OPTS=-Xms2g -Xmx3g
     volumes:
       - ./API/dataset:/docker-entrypoint-initdb.d
     networks:
-      - datatourism
+      - datatourismBDD
 
 networks:
-  datatourism:
+  datatourismAPI:
+    driver: bridge
+  datatourismBDD:
     driver: bridge
