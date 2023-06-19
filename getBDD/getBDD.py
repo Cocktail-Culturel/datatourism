@@ -1,3 +1,4 @@
+from time import sleep
 import requests
 import json
 
@@ -21,3 +22,4 @@ for region, url in json_data.items():
         print("Response Status Code:", response.status_code)
     except requests.exceptions.RequestException as err:
         print(f"Error : {err} Staus code : {response.status_code}")
+    sleep(3)
