@@ -107,5 +107,5 @@ function getEvents($keywords)
   return $result;
 }
 
-$result_ = getEvents("the weeknd");
-var_dump($result_);
+//$result_ = getEvents("the weeknd");
+//var_dump($result_);
