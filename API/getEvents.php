@@ -1,6 +1,6 @@
 <?php
 
-function getEvents($latitude, $longitude,$radius)
+function getEvents($keywords)
 {
 
   // composer autoload
@@ -9,54 +9,43 @@ function getEvents($latitude, $longitude,$radius)
   $blazegraphHostname = getenv('BLAZEGRAPH_HOSTNAME') ?: 'localhost';
   $api = \Datatourisme\Api\DatatourismeApi::create("http://$blazegraphHostname:9999/blazegraph/namespace/kb/sparql");
 
-
   // Requete total
-  $data = $api->process("
+  $data = $api->process('
   {
     poi(
         filters: [
-            { 
-              isLocatedAt: 
-              {
-                schema_geo: 
-                { 
-                  _geo_distance: 
-                  {
-                    lng: {$longitude} , lat: {$latitude} , distance: {$radius}  
-                  } 
-                }
+          {
+            hasDescription: {
+              shortDescription: {
+                _text:"' . $keywords . '"
               }
             }
+          }
         ]
     )
     
   {
     total
   } 
-}");
-$total = $data["data"]["poi"]["total"];
+}');
 
+  $total = $data["data"]["poi"]["total"];
   // Requete data
-  $result = $api->process("{
+  $result = $api->process('{
     poi(
-      size : {$total},
         filters: [
-            { 
-              isLocatedAt: 
-              {
-                schema_geo: 
-                { 
-                  _geo_distance: 
-                  {
-                    lng: {$longitude} , lat: {$latitude} , distance: {$radius} 
-                  } 
-                }
+          {
+            hasDescription: {
+              shortDescription: {
+                _text:"' . $keywords . '"
               }
             }
+          }
         ]
     )
     
     {
+      total
       results {
         _uri
         rdfs_label {
@@ -89,12 +78,11 @@ $total = $data["data"]["poi"]["total"];
         }
       }
     }
-}");
+}');
 
-  
+
   return $result;
 }
 
-//$result_ = getEvents(48.87, 2.33,15);
+//$result_ = getEvents("the weeknd");
 //var_dump($result_);
-?>
