@@ -32,7 +32,10 @@ function getData($raw,$keyword,$latitude,$longitude){
 function sortData($events,$userKeywords){
 
     $userKeywordsLower = array_map('strtolower', explode(' ',$userKeywords));
-
+    for ($i = 0; $i < count($userKeywordsLower); $i++) {
+        $userKeywordsLower[$i] = str_replace('_', ' ', $userKeywordsLower[$i]);
+    }
+    
     $matches = [];
 
     for($i=0;$i<count($events);$i++){
@@ -42,9 +45,10 @@ function sortData($events,$userKeywords){
         
         
         $keywordWords = explode(' ', $keywords);
+
         $descriptionWords = explode(' ', $description);
+
         $isMatch=false;
-        
 
         $k = 0;
         $d = 0;
@@ -56,13 +60,18 @@ function sortData($events,$userKeywords){
                 $isMatch = true;
             } elseif ($d < $descriptionCount && in_array($descriptionWords[$d], $userKeywordsLower)) {
                 $isMatch = true;
+            } elseif ($k > 0 && in_array($keywordWords[$k - 1] . ' ' . $keywordWords[$k], $userKeywordsLower)) {
+                $isMatch = true;
+            }
+              elseif ($k > 0 && in_array($descriptionWords[$k - 1] . ' ' . $descriptionWords[$k], $userKeywordsLower)) {
+                $isMatch = true;
             }
             
             $k++;
             $d++;
         }
         
-
+        
         if($isMatch){
             array_push($matches,$events[$i]);
         }
