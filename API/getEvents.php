@@ -45,7 +45,6 @@ function getEvents($keywords)
     )
     
     {
-      total
       results {
         _uri
         rdfs_label {
