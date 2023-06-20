@@ -29,7 +29,7 @@ for region, url in json_data.items():
     try:
         blazegraph_url = "http://localhost:9999/blazegraph/namespace/kb/sparql"
         headers = {
-            'User-Agent': 'My User Agent 1.0',
+            #'User-Agent': 'My User Agent 1.0',
             'Content-Type': 'application/rdf+xml'
             }
         response = requests.post(blazegraph_url, data=rdf_data, headers=headers)

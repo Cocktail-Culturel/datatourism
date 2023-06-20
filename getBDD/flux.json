@@ -1,3 +1,12 @@
 {
-    "Nouvelle_Aquitaine": "https://diffuseur.datatourisme.fr/webservice/ada9a829aecc081431da52a661c29112/"
+    "Val-de-Loire+Corse+IDF+DOM/TOM":"https://diffuseur.datatourisme.fr/webservice/07ede464e2d769db91fa9d7221a27c0a/",
+    "Nouvelle_Aquitaine": "https://diffuseur.datatourisme.fr/webservice/ada9a829aecc081431da52a661c29112/",
+    "Occitanie": "https://diffuseur.datatourisme.fr/webservice/60d68357785618bb500817c0fd92f83b/",
+    "Normandie":"https://diffuseur.datatourisme.fr/webservice/2a9665bd7907266d22e18ee791c38fa9/",
+    "AURA":"https://diffuseur.datatourisme.fr/webservice/13b1869c82cf9b9bcc9f13824805ba44/",
+    "Pays_de_la_Loire+PACA":"https://diffuseur.datatourisme.fr/webservice/6e08bdb64fedec4cac242851db4e2c7f/",
+    "Haut_De_France" : "https://diffuseur.datatourisme.fr/webservice/b56af3274b80f734def6cd8584031661/",
+    "Bretagne": "https://diffuseur.datatourisme.fr/webservice/bd284be500b9818e5e2ac0985f43caff/",
+    "Grand-Est": "https://diffuseur.datatourisme.fr/webservice/61e7f1d084625214a82f4f94f8dd1b5f/",
+    "BFC":"https://diffuseur.datatourisme.fr/webservice/e6e497f95ea393120c45cade5cad3e27/"
 }
