@@ -21,9 +21,10 @@ for region, url in json_data.items():
     sleep(3)
     current_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     log_file.write(f"[{current_time}] Loading {region} in the database\n")
-    blazegraph_url = "http://localhost:9999/blazegraph/namespace/kb/sparql"
-    headers = {"Content-Type": "application/rdf+xml"}
+    
     try:
+        blazegraph_url = "http://localhost:9999/blazegraph/namespace/kb/sparql"
+        headers = {"Content-Type": "application/rdf+xml"}
         response = requests.post(blazegraph_url, data=rdf_data, headers=headers)
         log_file.write(f"[{current_time}] Load finished with status code: {response.status_code}\n")
     except requests.exceptions.RequestException as err:
