@@ -46,14 +46,22 @@ function sortData($events,$userKeywords){
         $isMatch=false;
         
 
-        $j=0;
-        while($j<count($keywordWords) && !$isMatch){
-            if (in_array($keywordWords[$j], $userKeywordsLower) || in_array($descriptionWords[$j], $userKeywordsLower)) {
-                $isMatch=true;
-            }else{
-                $j++;
+        $k = 0;
+        $d = 0;
+        $keywordCount = count($keywordWords);
+        $descriptionCount = count($descriptionWords);
+        
+        while (($k < $keywordCount || $d < $descriptionCount) && !$isMatch) {
+            if ($k < $keywordCount && in_array($keywordWords[$k], $userKeywordsLower)) {
+                $isMatch = true;
+            } elseif ($d < $descriptionCount && in_array($descriptionWords[$d], $userKeywordsLower)) {
+                $isMatch = true;
             }
+            
+            $k++;
+            $d++;
         }
+        
 
         if($isMatch){
             array_push($matches,$events[$i]);
