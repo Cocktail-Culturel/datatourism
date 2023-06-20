@@ -15,11 +15,23 @@ function getEvents($keywords)
     poi(
         filters: [
           {
-            hasDescription: {
-              shortDescription: {
-                _text:"' . $keywords . '"
+            _or : [
+              {
+              hasDescription: 
+              {
+                shortDescription: 
+                {
+                  _text: "'. $keywords.'"
+                }
               }
-            }
+              },
+              {
+                rdfs_label:
+                {
+                  _text:"'. $keywords.'"
+                }
+              }
+            ]
           }
         ]
     )
@@ -35,11 +47,23 @@ function getEvents($keywords)
     poi(
         filters: [
           {
-            hasDescription: {
-              shortDescription: {
-                _text:"' . $keywords . '"
+            _or : [
+              {
+              hasDescription: 
+              {
+                shortDescription: 
+                {
+                  _text: "'. $keywords.'"
+                }
               }
-            }
+              },
+              {
+                rdfs_label:
+                {
+                  _text:"'. $keywords.'"
+                }
+              }
+            ]
           }
         ]
     )
@@ -83,5 +107,5 @@ function getEvents($keywords)
   return $result;
 }
 
-//$result_ = getEvents("the weeknd");
-//var_dump($result_);
+$result_ = getEvents("the weeknd");
+var_dump($result_);
