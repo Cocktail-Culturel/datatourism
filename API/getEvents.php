@@ -9,39 +9,6 @@ function getEvents($keywords)
   $blazegraphHostname = getenv('BLAZEGRAPH_HOSTNAME') ?: 'localhost';
   $api = \Datatourisme\Api\DatatourismeApi::create("http://datatourism-bdd.cocktail-culturel.com/blazegraph/namespace/kb/sparql");
 
-  // Requete total
-  $data = $api->process('
-  {
-    poi(
-        filters: [
-          {
-            _or : [
-              {
-              hasDescription: 
-              {
-                shortDescription: 
-                {
-                  _text: "'. $keywords.'"
-                }
-              }
-              },
-              {
-                rdfs_label:
-                {
-                  _text:"'. $keywords.'"
-                }
-              }
-            ]
-          }
-        ]
-    )
-    
-  {
-    total
-  } 
-}');
-
-  $total = $data["data"]["poi"]["total"];
   // Requete data
   $result = $api->process('{
     poi(
