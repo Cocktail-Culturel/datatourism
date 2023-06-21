@@ -21,7 +21,7 @@ do
     mv flux flux.rdf
     
     echo "Envoi de flux.rdf vers http://localhost:9999/blazegraph/namespace/kb/sparql ..."
-    curl -X POST -H "Content-Type:application/rdf+xml" --data-binary @flux.rdf "http://localhost:9999/blazegraph/namespace/kb/sparql"
+    curl -X POST -H "Content-Type:application/rdf+xml" --data-binary @flux.rdf "https://datatourism-bdd.cocktail-culturel.com/blazegraph/namespace/kb/sparql"
     
     echo "Traitement terminé pour $modified_url"
     echo
