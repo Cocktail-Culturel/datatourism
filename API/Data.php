@@ -31,51 +31,83 @@ function getData($raw,$keyword,$latitude,$longitude){
 
 function sortData($events,$userKeywords){
 
-    $userKeywordsLower = array_map('strtolower', explode(' ',$userKeywords));
-    for ($i = 0; $i < count($userKeywordsLower); $i++) {
-        $userKeywordsLower[$i] = str_replace('_', ' ', $userKeywordsLower[$i]);
-    }
+    
+    $userKeywordsLower = array_map('strtolower', explode(' ',$userKeywords));    
     
     $matches = [];
-
+    $mots=$userKeywordsLower;
+    $pattern = '/[^a-zA-Zéàêèçù\s\']+/u';
+    
     for($i=0;$i<count($events);$i++){
         
         $keywords= strtolower($events[$i]['title']);
         $description= strtolower($events[$i]['description']);
-        
-        
-        $keywordWords = explode(' ', $keywords);
 
-        $descriptionWords = explode(' ', $description);
+        $keywordWords = explode(' ', preg_replace($pattern, '', $keywords));
+        $descriptionWords = explode(' ', preg_replace($pattern, '', $description));
 
         $isMatch=false;
+        $isMatchdes=false;
 
-        $k = 0;
-        $d = 0;
-        $keywordCount = count($keywordWords);
-        $descriptionCount = count($descriptionWords);
-        
-        while (($k < $keywordCount || $d < $descriptionCount) && !$isMatch) {
-            if ($k < $keywordCount && in_array($keywordWords[$k], $userKeywordsLower)) {
-                $isMatch = true;
-            } elseif ($d < $descriptionCount && in_array($descriptionWords[$d], $userKeywordsLower)) {
-                $isMatch = true;
-            } elseif ($k > 0 && in_array($keywordWords[$k - 1] . ' ' . $keywordWords[$k], $userKeywordsLower)) {
-                $isMatch = true;
+        $j=0;
+        while($j<count($keywordWords)){
+            $k=0;
+            $continue=true;
+            while($k<count($mots) && $continue){
+                if($keywordWords[$j+$k]==$mots[$k]){
+                    $continue=true;
+                }else{
+                    $continue=false;
+                }
+                $k++;
             }
-              elseif ($k > 0 && in_array($descriptionWords[$k - 1] . ' ' . $descriptionWords[$k], $userKeywordsLower)) {
-                $isMatch = true;
+            if($continue){
+                $isMatch=true;
+                break;
             }
-            
-            $k++;
-            $d++;
+            $j++;
         }
-        
-        
-        if($isMatch){
+
+        $j=0;
+        while($j<count($descriptionWords)){
+            $k=0;
+            $continue=true;
+            while($k<count($mots) && $continue){
+                if($descriptionWords[$j+$k]==$mots[$k]){
+                    $continue=true;
+                }else{
+                    $continue=false;
+                }
+                $k++;
+            }
+            if($continue){
+                $isMatchdes=true;
+                break;
+            }
+            $j++;
+        }
+
+        if($isMatch || $isMatchdes){
             array_push($matches,$events[$i]);
         }
+        
     }
+
+    for($i=0;$i<count($matches);$i++){
+
+        $j=$i;
+
+        while($j>0 && $matches[$j-1]['distance']>$matches[$j]['distance']){
+
+            $temp=$matches[$j-1];
+            $matches[$j-1]=$matches[$j];
+            $matches[$j]=$temp;
+
+            $j--;
+        }
+        
+    }
+
 
     return $matches;
 }

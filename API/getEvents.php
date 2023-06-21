@@ -7,7 +7,7 @@ function getEvents($keywords)
   require __DIR__ . '/vendor/autoload.php';
   // instanciation du client
   $blazegraphHostname = getenv('BLAZEGRAPH_HOSTNAME') ?: 'localhost';
-  $api = \Datatourisme\Api\DatatourismeApi::create("http://$blazegraphHostname:9999/blazegraph/namespace/kb/sparql");
+  $api = \Datatourisme\Api\DatatourismeApi::create("http://51.178.81.26:9999/blazegraph/namespace/kb/sparql");
 
   // Requete total
   $data = $api->process('
@@ -107,5 +107,5 @@ function getEvents($keywords)
   return $result;
 }
 
-$result_ = getEvents("the weeknd");
-var_dump($result_);
+//$result_ = getEvents("the weeknd");
+//var_dump($result_);

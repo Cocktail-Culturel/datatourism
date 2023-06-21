@@ -26,21 +26,26 @@ $app->get('/', function (Request $request, Response $response, $args) {
 $app->get('/api', function (Request $request, Response $response, $args) {
     $latitude = $request->getQueryParams()['latitude'] ?? null;
     $longitude = $request->getQueryParams()['longitude'] ?? null;
-    $rayon = $request->getQueryParams()['rayon'] ?? 25;
     $keyword = $request->getQueryParams()['keyword'] ?? null;
 
-    $raw = getEvents($latitude, $longitude,$rayon);
+    $raw = getEvents($keyword);
     
     if ($raw !== null) {
         $Events=getData($raw,$keyword,$latitude,$longitude);
+        $responseData = array(
+            'status' => 200,
+            'message' => 'Success',
+            'nb_results'=> count($Events),
+            'result' => $Events
+        );
+    }else{
+        $responseData = array(
+            'status' => 200,
+            'message' => 'Success',
+            'nb_results'=> 0,
+            'result' => []
+        );
     }
-
-    $responseData = array(
-        'status' => 200,
-        'message' => 'Success',
-        'nb_results'=> count($Events),
-        'result' => $Events
-    );
 
     $response = $response->withHeader('Content-Type', 'application/json; charset=UTF-8;');
     $response->getBody()->write(json_encode($responseData, JSON_UNESCAPED_UNICODE));
