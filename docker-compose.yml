@@ -11,8 +11,21 @@ services:
     environment:
       - BLAZEGRAPH_HOSTNAME=bdd
     networks:
-      - datatourismAPI
-      - datatourismBDD
+      - back
+
+  nginx:
+    build:
+      context: ./Nginx
+    container_name: dataTourismNginx
+    restart: always
+    ports:
+      - "8001:8001"
+    networks:
+      - front
+      - back
+    depends_on:
+      - api
+
 
   bdd:
     image: conjecto/blazegraph:2.1.5
@@ -25,10 +38,10 @@ services:
     volumes:
       - ./API/dataset:/docker-entrypoint-initdb.d
     networks:
-      - datatourismBDD
+      - back
 
 networks:
-  datatourismAPI:
+  front:
     driver: bridge
-  datatourismBDD:
+  back:
     driver: bridge
