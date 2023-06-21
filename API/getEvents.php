@@ -7,41 +7,8 @@ function getEvents($keywords)
   require __DIR__ . '/vendor/autoload.php';
   // instanciation du client
   $blazegraphHostname = getenv('BLAZEGRAPH_HOSTNAME') ?: 'localhost';
-  $api = \Datatourisme\Api\DatatourismeApi::create("http://blazegraphHostname:9999/blazegraph/namespace/kb/sparql");
+  $api = \Datatourisme\Api\DatatourismeApi::create("http://datatourism-bdd.cocktail-culturel.com/blazegraph/namespace/kb/sparql");
 
-  // Requete total
-  $data = $api->process('
-  {
-    poi(
-        filters: [
-          {
-            _or : [
-              {
-              hasDescription: 
-              {
-                shortDescription: 
-                {
-                  _text: "'. $keywords.'"
-                }
-              }
-              },
-              {
-                rdfs_label:
-                {
-                  _text:"'. $keywords.'"
-                }
-              }
-            ]
-          }
-        ]
-    )
-    
-  {
-    total
-  } 
-}');
-
-  $total = $data["data"]["poi"]["total"];
   // Requete data
   $result = $api->process('{
     poi(
@@ -107,5 +74,5 @@ function getEvents($keywords)
   return $result;
 }
 
-//$result_ = getEvents("the weeknd");
-//var_dump($result_);
+#$result_ = getEvents("the weeknd");
+#var_dump($result_);
