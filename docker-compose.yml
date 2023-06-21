@@ -13,30 +13,14 @@ services:
     networks:
       - back
 
-  nginx:
-    build:
-      context: ./Nginx
-    container_name: dataTourismNginx
-    restart: always
-    ports:
-      - "8001:8001"
-    networks:
-      - front
-      - back
-    depends_on:
-      - api
-
-
   bdd:
-    image: conjecto/blazegraph:2.1.5
+    image: openkbs/blazegraph:2.1.5
     container_name: dataTourismBDD
     restart: always
     ports:
       - 9999:9999
-    environment:
-      - JAVA_OPTS=-Xms2g -Xmx3g
     volumes:
-      - ./API/dataset:/docker-entrypoint-initdb.d
+      - ./data:/var/lib/blazegraph/data
     networks:
       - back
 
