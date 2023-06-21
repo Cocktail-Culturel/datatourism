@@ -29,15 +29,14 @@ function getData($raw,$keyword,$latitude,$longitude){
 }
 
 
-function sortData($events,$userKeywords){
+function sortData($events,$keyword){
 
     
-    $userKeywordsLower = array_map('strtolower', explode(' ',$userKeywords));    
+    $listemots = array_map('strtolower', explode('_',$keyword));    
     
     $matches = [];
-    $mots=$userKeywordsLower;
     $pattern = '/[^a-zA-Zéàêèçù\s\']+/u';
-    
+
     for($i=0;$i<count($events);$i++){
         
         $keywords= strtolower($events[$i]['title']);
@@ -45,46 +44,54 @@ function sortData($events,$userKeywords){
 
         $keywordWords = explode(' ', preg_replace($pattern, '', $keywords));
         $descriptionWords = explode(' ', preg_replace($pattern, '', $description));
+        
+        for($p=0;$p<count($listemots);$p++){
 
-        $isMatch=false;
-        $isMatchdes=false;
+            $isMatch=false;
+            $isMatchdes=false;
+            $mots= explode(' ',$listemots[$p]); 
 
-        $j=0;
-        while($j<count($keywordWords)){
-            $k=0;
-            $continue=true;
-            while($k<count($mots) && $continue){
-                if($keywordWords[$j+$k]==$mots[$k]){
-                    $continue=true;
-                }else{
-                    $continue=false;
+            $j=0;
+            while($j<count($keywordWords)){
+                $k=0;
+                $continue=true;
+                while($k<count($mots) && $continue){
+                    if($keywordWords[$j+$k]==$mots[$k]){
+                        $continue=true;
+                    }else{
+                        $continue=false;
+                    }
+                    $k++;
                 }
-                $k++;
+                if($continue){
+                    $isMatch=true;
+                    break;
+                }
+                $j++;
             }
-            if($continue){
-                $isMatch=true;
+    
+            $j=0;
+            while($j<count($descriptionWords)){
+                $k=0;
+                $continue=true;
+                while($k<count($mots) && $continue){
+                    if($descriptionWords[$j+$k]==$mots[$k]){
+                        $continue=true;
+                    }else{
+                        $continue=false;
+                    }
+                    $k++;
+                }
+                if($continue){
+                    $isMatchdes=true;
+                    break;
+                }
+                $j++;
+            }
+
+            if($isMatch || $isMatchdes){
                 break;
             }
-            $j++;
-        }
-
-        $j=0;
-        while($j<count($descriptionWords)){
-            $k=0;
-            $continue=true;
-            while($k<count($mots) && $continue){
-                if($descriptionWords[$j+$k]==$mots[$k]){
-                    $continue=true;
-                }else{
-                    $continue=false;
-                }
-                $k++;
-            }
-            if($continue){
-                $isMatchdes=true;
-                break;
-            }
-            $j++;
         }
 
         if($isMatch || $isMatchdes){
@@ -92,6 +99,7 @@ function sortData($events,$userKeywords){
         }
         
     }
+
 
     for($i=0;$i<count($matches);$i++){
 
