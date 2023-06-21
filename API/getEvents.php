@@ -6,8 +6,8 @@ function getEvents($keywords)
   // composer autoload
   require __DIR__ . '/vendor/autoload.php';
   // instanciation du client
-  $blazegraphHostname = getenv('BLAZEGRAPH_HOSTNAME') ?: 'localhost';
-  $api = \Datatourisme\Api\DatatourismeApi::create("http://datatourism-bdd.cocktail-culturel.com/blazegraph/namespace/kb/sparql");
+  $blazegraphHostname = getenv('BLAZEGRAPH_HOSTNAME') ?: 'datatourism-bdd.cocktail-culture';
+  $api = \Datatourisme\Api\DatatourismeApi::create("http://$blazegraphHostname/blazegraph/namespace/kb/sparql");
 
   // Requete data
   $result = $api->process('{
