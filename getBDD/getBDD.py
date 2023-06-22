@@ -50,7 +50,7 @@ rdf_url = "https://diffuseur.datatourisme.fr/webservice/37bc3e10f044c1d393d523b9
 rdf_data = requests.get(rdf_url).content
 
 print("sending...")
-blazegraph_url = "http://localhost:9999/blazegraph/namespace/kb/sparql"
+blazegraph_url = "https://datatourism-bdd.cocktail-culturel.com/blazegraph/namespace/kb/sparql"
 headers = {"Content-Type": "application/rdf+xml"}
 response = requests.post(blazegraph_url, data=rdf_data, headers=headers)
 
