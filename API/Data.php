@@ -25,7 +25,7 @@ function getData($raw,$keyword,$latitude,$longitude){
 
 
     //return sortData($events,$keyword);
-    return $event;
+    return $events;
 }
 
 

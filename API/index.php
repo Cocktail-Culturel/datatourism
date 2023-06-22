@@ -28,11 +28,13 @@ $app->get('/api', function (Request $request, Response $response, $args) {
     $longitude = $request->getQueryParams()['longitude'] ?? null;
     $keyword = $request->getQueryParams()['keyword'] ?? null;
 
-    if (strpos($keyword, '_') !== false) {
+    /*if (strpos($keyword, '_') !== false) {
         $raw = getEvents(str_replace('_', ' ', $keyword));
     } else {
         $raw = getEvents($keyword);
-    }
+    }*/
+
+    $raw = getEvents($keyword);
 
     if ($raw !== null) {
         $Events=getData($raw,$keyword,$latitude,$longitude);
