@@ -23,9 +23,9 @@ function getData($raw,$keyword,$latitude,$longitude){
         }
     }
 
-    //$illustration = null;
 
-    return sortData($events,$keyword);
+    //return sortData($events,$keyword);
+    return $event;
 }
 
 
