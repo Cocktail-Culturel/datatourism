@@ -3,13 +3,15 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Slim\Factory\AppFactory;
 
+error_reporting(E_ALL & ~E_DEPRECATED);
+
 require 'getEvents.php';
 require 'Data.php';
 require __DIR__ . '/vendor/autoload.php';
 
 $app = AppFactory::create();
 $app->addRoutingMiddleware();
-$errorMiddleware = $app->addErrorMiddleware(false, true, false);
+$errorMiddleware = $app->addErrorMiddleware(false, false, false);
 
 $app->get('/', function (Request $request, Response $response, $args) {
     $responseData = array(
