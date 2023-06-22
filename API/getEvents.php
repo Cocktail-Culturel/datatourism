@@ -9,9 +9,44 @@ function getEvents($keywords)
   $blazegraphHostname = getenv('BLAZEGRAPH_HOSTNAME') ?: 'datatourism-bdd.cocktail-culturel.com';
   $api = \Datatourisme\Api\DatatourismeApi::create("http://$blazegraphHostname/blazegraph/namespace/kb/sparql");
 
+  // Requete total
+  $data = $api->process('
+  {
+    poi(
+        filters: [
+          {
+            _or : [
+              {
+              hasDescription: 
+              {
+                shortDescription: 
+                {
+                  _text: "'. $keywords.'"
+                }
+              }
+              },
+              {
+                rdfs_label:
+                {
+                  _text:"'. $keywords.'"
+                }
+              }
+            ]
+          }
+        ]
+    )
+    
+  {
+    total
+  } 
+}');
+
+  $total = $data["data"]["poi"]["total"];
+
   // Requete data
   $result = $api->process('{
     poi(
+      size :'.$total.',
         filters: [
           {
             _or : [
@@ -74,5 +109,5 @@ function getEvents($keywords)
   return $result;
 }
 
-//$result_ = getEvents("Mike Marino Matt Osbourne Christian Stropko Annie Sperling Matt Ardine Official Music Video the Weeknd Your Tears");
-//var_dump($result_);
+#$result_ = getEvents("Sarah Park Akseli Soini Aleksi Tammi Saskia Whinney Kenneth Taylor Official Video The Weeknd Blinding Lights");
+#var_dump($result_);
